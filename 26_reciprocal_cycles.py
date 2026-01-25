@@ -1,34 +1,31 @@
 def reciprocal_cycles():
 	maximum = 0
 	answer = 0
-	answer1 = 0
 	for i in range(2,1001):
-		temp = 1/i
-		temp = str(temp)
-		temp = temp.replace(".", '')
+		remainder = 1%i
+		dictionary = {}
+		digits = []
+		start = 0
+		cycle = 0
+		position = 0
 		
-		
-		answer = find_recurring_cycle(temp[1:])
-		print(i,temp[1:],answer)
-		if answer > maximum:
-			maximum = answer
-			answer1 = i
+		while remainder!=0:
+			if remainder in dictionary:
+				start = dictionary[remainder]
+				cycle = digits[start:]
+				if len(cycle) > maximum:
+					maximum = len(cycle)
+					answer = i
+				break
 
-	return answer1
+			dictionary[remainder] = position
+			remainder = remainder * 10
+			digit = remainder // i
+			digits.append(digit)
+			remainder = remainder % i
+			position =position+1			
 
-
-def find_recurring_cycle(string):
-	dictionary = {}
-	for i in range(len(string)):
-		# print(string[:i])
-		if string[i] in dictionary:
-			# print(string,i)
-			return i + 1
-
-		dictionary[string[i]] = 1
-	# print(dictionary)
-	return 0
-
-
+	return answer
 
 print(reciprocal_cycles())
+# print(find_recurring_cycle("1098901098901099"))
